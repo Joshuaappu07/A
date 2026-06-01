@@ -1,0 +1,21 @@
+lM,lC,rM,rC,k=3,3,0,0,0
+print("Game Start\nMove all to right side\nRules:\n1. Boat carries at most two people\n2. Cannibals can't outnumber missionaries\n3. Boat can't move empty")
+try:
+    while True:
+        while True:
+            uM=int(input("Missionaries L->R: "));uC=int(input("Cannibals L->R: "))
+            if(uM or uC)and uM+uC<=2 and lM>=uM and lC>=uC:break
+            print("Wrong input")
+        lM-=uM;lC-=uC;rM+=uM;rC+=uC;k+=1
+        print("Left:",("M "*lM)+"C "*lC,"| --> |","Right:",("M "*rM)+"C "*rC)
+        if (lC>lM and lM>0)or(rC>rM and rM>0):print("Cannibals eat missionaries\nYou lost the game");break
+        if rM+rC==6:print("You won the game\nTotal attempts:",k);break
+        while True:
+            uM=int(input("Missionaries R->L: "));uC=int(input("Cannibals R->L: "))
+            if(uM or uC)and uM+uC<=2 and rM>=uM and rC>=uC:break
+            print("Wrong input")
+        lM+=uM;lC+=uC;rM-=uM;rC-=uC;k+=1
+        print("Left:",("M "*lM)+"C "*lC,"| <-- |","Right:",("M "*rM)+"C "*rC)
+        if (lC>lM and lM>0)or(rC>rM and rM>0):print("Cannibals eat missionaries\nYou lost the game");break
+except EOFError:
+    print("Invalid input please retry !!")
