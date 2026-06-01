@@ -1,0 +1,41 @@
+import requests
+from bs4 import BeautifulSoup
+class SearchBot:
+    def _init_(self):
+        pass
+    def search(self, query):
+        search_url = f"https://www.google.com/search?q={query}"
+        # Set specific browser headers to avoid HTTP 429 status response exceptions
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+        response = requests.get(search_url, headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        search_results = []
+        for result in soup.find_all('div', class_='BNeawe vvjwJb AP7Wnd'):
+            search_results.append(result.get_text())
+        return search_results
+if _name_ == "_main_":
+    bot = SearchBot()
+    query = input("Enter your search query: ")
+    results = bot.search(query)
+    for idx, result in enumerate(results, 1):
+        print(f"{idx}. {result}\n")
+
+import requests
+from bs4 import BeautifulSoup
+class SearchBot:
+    def __init__(self):
+        pass
+    def search(self, query):
+        search_url=f"https://www.google.com/search?q={query}"
+        response=requests.get(search_url)
+        soup=BeautifulSoup(response.text,'html.parser')
+        search_results=[]
+        for result in soup.find_all('div',class_='BNeawe vvjwJb AP7Wnd'):
+            search_results.append(result.get_text())
+        return search_results
+if __name__=="__main__":
+    bot=SearchBot()
+    query=input("Enter your search query: ")
+    results=bot.search(query)
+    for idx,result in enumerate(results,1):
+        print(f"{idx}. {result}\n")
