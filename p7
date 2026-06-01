@@ -1,0 +1,29 @@
+class ForwardChaining:
+    def __init__(self,rules,facts):self.rules=rules;self.facts=set(facts)
+    def apply_rules(self):
+        while True:
+            new_facts=set()
+            for antecedent,consequent in self.rules:
+                if antecedent.issubset(self.facts):new_facts.add(consequent)
+            if not new_facts.difference(self.facts):break
+            self.facts.update(new_facts)
+    def get_facts(self):return self.facts
+class BackwardChaining:
+    def __init__(self,rules,facts):self.rules=rules;self.facts=set(facts)
+    def is_fact(self,fact):
+        if fact in self.facts:return True
+        for antecedent,consequent in self.rules:
+            if consequent==fact:
+                if all(self.is_fact(ant)for ant in antecedent):return True
+        return False
+rules=[({"has_fur(tiger)"}, "mammal(tiger)"),({"has_feathers(penguin)","lays_eggs(penguin)"}, "bird(penguin)"),({"lays_eggs(sparrow)","has_feathers(sparrow)"}, "bird(sparrow)"),({"has_fur(cat)"}, "mammal(cat)")]
+initial_facts={"has_fur(tiger)","has_feathers(penguin)","lays_eggs(penguin)","lays_eggs(sparrow)","has_fur(cat)"}
+print("--- Forward Chaining ---")
+fc=ForwardChaining(rules,initial_facts);fc.apply_rules()
+print("Derived Facts:",fc.get_facts())
+print("\n--- Backward Chaining ---")
+goals=["mammal(tiger)","bird(penguin)","bird(sparrow)","mammal(cat)"]
+bc=BackwardChaining(rules,initial_facts)
+for goal in goals:
+    if bc.is_fact(goal):print(f"Goal {goal} can be derived from the facts.")
+    else:print(f"Goal {goal} cannot be derived from the facts.")
