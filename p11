@@ -1,0 +1,14 @@
+import random
+class GuessTheNumberGame:
+    def __init__(self,max_attempts=5,min_num=1,max_num=10):
+        self.min_num=min_num;self.max_num=max_num;self.secret_number=random.randint(min_num,max_num);self.max_attempts=max_attempts;self.attempts=0
+    def play(self):
+        print("Welcome to Guess the Number Game!")
+        print(f"I'm thinking of a number between {self.min_num} and {self.max_num}.")
+        while self.attempts<self.max_attempts:
+            try:guess=int(input(f"Guess the number ({self.min_num} - {self.max_num}): "))
+            except ValueError:print("Please enter a valid number.");continue
+            if guess==self.secret_number:print(f"Congratulations! You guessed the number {self.secret_number} correctly!");break
+            print("Too low! Try again." if guess<self.secret_number else "Too high! Try again.");self.attempts+=1
+        else:print(f"Sorry, you've run out of attempts! The correct number was {self.secret_number}.")
+if __name__=="__main__":GuessTheNumberGame().play()
